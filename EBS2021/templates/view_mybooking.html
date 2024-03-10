@@ -1,0 +1,203 @@
+{% load static %}
+{% block body %}
+{% include 'navigation.html' %}
+
+<!--<link rel="stylesheet" href="{% static 'style.css' %}">  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>-->
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>-->
+<!--<script>-->
+<!--$(document).ready(function() {-->
+<!--    $('#example').DataTable( {-->
+<!--        dom: 'Bfrtip',-->
+<!--        buttons: [-->
+<!--            'copyHtml5',-->
+<!--            'excelHtml5',-->
+<!--            'csvHtml5',-->
+<!--            'pdfHtml5'-->
+<!--        ]-->
+<!--    } );-->
+<!--});-->
+</script>
+
+<style>
+
+  /* Move your styles from the template to here */
+  body {
+    background-color: lightblue;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+.table tbody tr:nth-child(even) {
+  background-color: #f5f5f5; /* Lighter background for even rows */
+}
+
+.table tr:hover {
+  background-color: #e0e0e0; /* Darker background on hover */
+}
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .table th {
+    text-align: left;
+    background-color: #f2f2f2;
+  }
+
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .table tr:hover {
+    background-color: #ddd;
+  }
+
+  .table a.btn {
+    margin-right: 5px;
+  }
+    .btn-danger {
+  background-color: #dc3545; /* Change the button color */
+  border-color: #dc3545; /* Match button color for borders */
+  color: #fff; /* White text for better contrast */
+}
+
+.btn-danger:hover {
+  background-color: #c8233b; /* Darker shade on hover */
+  border-color: #c8233b;
+}
+    .table thead th {
+  background-color: #343a40; /* Darker header background */
+  color: #fff; /* White text for headers */
+  text-transform: uppercase; /* Convert header text to uppercase */
+  padding: 12px; /* Increase padding for headers */
+}
+.container {
+  max-width: 900px; /* Set a maximum width for the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+h2 {
+  font-size: 2rem; /* Increase font size for headings */
+  font-weight: bold; /* Make headings bolder */
+  margin-bottom: 30px; /* Increase space after headings */
+}
+@media (max-width: 768px) {
+  .table-responsive-lg {
+    display: block;
+    width: 100%; /* Make table responsive on smaller screens */
+  }
+}
+
+/* Define a base color */
+:root {
+  --base-color: #3498db; /* Adjust this for your desired base color */
+}
+
+/* Table row stripes and hover effect */
+.table tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.table tr:hover {
+  background-color: lighten(--base-color, 10%); /* Lighter shade of base color */
+}
+
+/* Button styling */
+.btn-danger {
+  background-color: var(--base-color); /* Use base color for button */
+  border-color: var(--base-color);
+  color: #fff; /* White text for better contrast */
+}
+
+.btn-danger:hover {
+  background-color: darken(--base-color, 10%); /* Darker shade of base color */
+  border-color: darken(--base-color, 10%);
+}
+
+/* Header row styling */
+.table thead th {
+  background-color: var(--base-color); /* Use base color for header */
+  color: #fff; /* White text for headers */
+  text-transform: uppercase; /* Convert header text to uppercase */
+  padding: 12px; /* Increase padding for headers */
+}
+
+/* Container and text styling */
+.container {
+  max-width: 900px; /* Set a maximum width for the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+h2 {
+  font-size: 2rem; /* Increase font size for headings */
+  font-weight: bold; /* Make headings bolder */
+  margin-bottom: 30px; /* Increase space after headings */
+  color: var(--base-color); /* Use base color for headings */
+}
+
+/* Responsive considerations */
+@media (max-width: 768px) {
+  .table-responsive-lg {
+    display: block;
+    width: 100%; /* Make table responsive on smaller screens */
+  }
+}
+
+</style>
+
+<div class="container" style="margin-top: 50px;">
+  <h2 class="text-center">View Booking History</h2>
+  <br><br>
+  <table class="table table-hover table-responsive-lg" id="example">
+    <thead>
+      <tr>
+        <th>S. No.</th>
+        <th>Event Name</th>
+        <th>Number of Person</th>
+        <th>Total Price</th>
+        <th>Booking Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in b %}
+      <tr>
+        <td>{{ i.id }}</td>
+        <td>{{ i.eventinfo.eventname }}</td>
+        <td>{{ i.person }}</td>
+        <td>{{ i.total }}</td>
+        <td>{{ i.bookingdate }}</td>
+        <td>{{ i.status }}</td>
+        <td>
+          <a href="{% url 'bookingdetail_user' i.id %}" class="btn btn-danger">View Detail</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
